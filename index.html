@@ -56,6 +56,23 @@
   footer p{margin:6px 0}
   .leaflet-popup-content{font-size:13.5px;line-height:1.4}
   .leaflet-popup-content a{color:var(--accent);font-weight:600;text-decoration:none}
+
+  .media{display:flex;flex-wrap:wrap;gap:12px;margin-top:12px}
+  .carousel{position:relative;flex:1 1 320px;min-width:0}
+  .carousel .stage{position:relative;border-radius:10px;overflow:hidden;background:var(--accent-soft);aspect-ratio:16/10}
+  .carousel img{width:100%;height:100%;object-fit:cover;display:block}
+  .carousel .nav{position:absolute;top:50%;transform:translateY(-50%);width:34px;height:34px;
+    border:none;border-radius:50%;background:rgba(255,255,255,.92);color:var(--ink);
+    font-size:20px;line-height:1;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.25);z-index:2}
+  .carousel .nav.prev{left:8px}
+  .carousel .nav.next{right:8px}
+  .carousel .counter{position:absolute;right:10px;bottom:8px;background:rgba(0,0,0,.55);color:#fff;
+    font-size:11.5px;border-radius:999px;padding:2px 9px;z-index:2}
+  .cardmap{flex:0 0 220px;height:200px;border-radius:10px;border:1px solid var(--line);overflow:hidden}
+  @media (max-width:560px){
+    .cardmap{flex:1 1 100%;height:170px}
+  }
+
 </style>
 </head>
 <body>
@@ -87,7 +104,11 @@
   <div class="card" id="c1">
     <div class="top"><span class="addr">3471&ndash;3475 17th St<span class="badge">Best value</span></span><span class="price">$3,200/mo</span></div>
     <p class="meta">2BR/1BA &middot; Mission Dolores</p>
-    <img class="photo" loading="lazy" alt="3471-3475 17th St listing photo" src="https://images1.apartments.com/i2/cNMR5JSwwrt5hqr0cAsZH_E9OG9LDIbKEHhvI6Qgq3o/111/3471-3475-17th-st-san-francisco-ca-primary-photo.jpg" onerror="this.style.display='none'">
+    <div class="media">
+      <div class="carousel" data-listing="c1"></div>
+      <p class="photo-credit">Photo via the Apartments.com listing</p>
+      <div class="cardmap" data-listing="c1"></div>
+    </div>
     <p class="perks">Sun-filled, redone eat-in kitchen with granite, renovated bath. A wildly good price for this block.</p>
     <p class="caveat">No pets, 12-month lease, posted ~2 weeks ago. The Apartments.com page title says "Room for Rent" but the listing body describes the full unit.</p>
     <a class="src" href="https://www.apartments.com/3471-3475-17th-st-san-francisco-ca/h5yyny1/">View on Apartments.com &rarr;</a>
@@ -96,15 +117,24 @@
   <div class="card" id="c2">
     <div class="top"><span class="addr">270 Valencia St #304</span><span class="price">$3,500/mo</span></div>
     <p class="meta">2BR/1BA &middot; 734 sqft &middot; Valencia @ 14th</p>
-    <img class="photo" loading="lazy" alt="270 Valencia St listing photo" src="https://photos.zillowstatic.com/fp/8bd261cd5565b5cee3a3cc748d2e3883-cc_ft_960.jpg" onerror="this.style.display='none'">
+    <div class="media">
+      <div class="carousel" data-listing="c2"></div>
+      <p class="photo-credit">Photos via Zillow (building page)</p>
+      <div class="cardmap" data-listing="c2"></div>
+    </div>
     <p class="perks">Indoor parking and in-unit washer/dryer included. Courtyard-facing, pets OK, a few blocks to Dolores Park.</p>
+    <p class="caveat">Photos are Zillow's building-level set for 270 Valencia; confirm #304 specifics on the listing.</p>
     <a class="src" href="https://www.apartments.com/270-valencia-st-san-francisco-ca/chjcz4e/">View on Apartments.com &rarr;</a>
   </div>
 
   <div class="card" id="c3">
     <div class="top"><span class="addr">The Mission, 240 Dolores St</span><span class="price">1BR ~$3,875/mo</span></div>
     <p class="meta">Studios&ndash;2BR &middot; 12 units available &middot; literally on the park</p>
-    <img class="photo" loading="lazy" alt="The Mission building photo" src="https://photos.zillowstatic.com/fp/7d1d00193733a31a604a45fc02845019-o_a.jpg" onerror="this.style.display='none'">
+    <div class="media">
+      <div class="carousel" data-listing="c3"></div>
+      <p class="photo-credit">Photos via Zillow</p>
+      <div class="cardmap" data-listing="c3"></div>
+    </div>
     <p class="perks">In-unit W/D, pool. You can't live closer to Dolores Park than this.</p>
     <p class="caveat">Zillow lists price on request; the $3,875 figure is the 1BR total monthly shown on HotPads.</p>
     <a class="src" href="https://www.zillow.com/apartments/san-francisco-ca/the-mission/5XjQJR/">View on Zillow &rarr;</a>
@@ -113,7 +143,11 @@
   <div class="card" id="c4">
     <div class="top"><span class="addr">38 Dolores</span><span class="price">$5,506/mo</span></div>
     <p class="meta">2BR &middot; 848 sqft &middot; Dolores &amp; Market</p>
-    <img class="photo" loading="lazy" alt="38 Dolores listing photo" src="https://photos.zillowstatic.com/fp/38b81d2e79d33746ad369136db3fc9be-p_e.webp" onerror="this.style.display='none'">
+    <div class="media">
+      <div class="carousel" data-listing="c4"></div>
+      <p class="photo-credit">Photos via Zillow</p>
+      <div class="cardmap" data-listing="c4"></div>
+    </div>
     <p class="perks">Luxury building: pool, gym, rooftop. 1BRs in the building also fit the cap. Posted 15 hours ago.</p>
     <a class="src" href="https://hotpads.com/38-dolores-san-francisco-ca-94103-23y6jt6/pad">View on HotPads &rarr;</a>
   </div>
@@ -121,7 +155,11 @@
   <div class="card" id="c5">
     <div class="top"><span class="addr">200 Dolores St #6</span><span class="price">$3,750/mo</span></div>
     <p class="meta">1BR/1BA &middot; 651 sqft corner condo &middot; 16th &amp; Dolores</p>
-    <img class="photo" loading="lazy" alt="200 Dolores St listing photo" src="https://photos.zillowstatic.com/fp/c506c561abfaf9c7e9af34fb31def0d9-cc_ft_960.jpg" onerror="this.style.display='none'">
+    <div class="media">
+      <div class="carousel" data-listing="c5"></div>
+      <p class="photo-credit">Photos via Zillow</p>
+      <div class="cardmap" data-listing="c5"></div>
+    </div>
     <p class="perks">Garage parking, storage, and internet included. In-unit W/D, high-end kitchen.</p>
     <p class="caveat">Page says "check back soon for upcoming availability" even though the listing is only 2 weeks old. Worth a confirming email or call before counting on it.</p>
     <a class="src" href="https://www.apartments.com/200-dolores-st-san-francisco-ca-unit-6/c5z84pf/">View on Apartments.com &rarr;</a>
@@ -130,7 +168,11 @@
   <div class="card" id="c6">
     <div class="top"><span class="addr">834 York St</span><span class="price">$5,950/mo</span></div>
     <p class="meta">2BR + office Edwardian flat &middot; 1,200 sqft &middot; York &amp; 21st</p>
-    <img class="photo" loading="lazy" alt="834 York St listing photo" src="https://photos.zillowstatic.com/fp/e5631284fe6719dc38b385fba8971415-cc_ft_960.jpg" onerror="this.style.display='none'">
+    <div class="media">
+      <div class="carousel" data-listing="c6"></div>
+      <p class="photo-credit">Photos via Zillow</p>
+      <div class="cardmap" data-listing="c6"></div>
+    </div>
     <p class="perks">Renovated, in-unit W/D, shared landscaped backyard. Listed 3 hours ago.</p>
     <p class="caveat">No pets.</p>
     <a class="src" href="https://hotpads.com/834-york-st-san-francisco-ca-94110-2550sa0/834/pad">View on HotPads &rarr;</a>
@@ -139,7 +181,11 @@
   <div class="card" id="c7">
     <div class="top"><span class="addr">662 Capp St #01</span><span class="price">$4,500/mo</span></div>
     <p class="meta">2BR/1BA &middot; 831 sqft newer condo &middot; heart of the Mission</p>
-    <img class="photo" loading="lazy" alt="662 Capp St listing photo" src="https://photos.zillowstatic.com/fp/7dc9673341dc4b7c81b1cf6eb697fd29-cc_ft_960.jpg" onerror="this.style.display='none'">
+    <div class="media">
+      <div class="carousel" data-listing="c7"></div>
+      <p class="photo-credit">Photos via Zillow</p>
+      <div class="cardmap" data-listing="c7"></div>
+    </div>
     <p class="perks">Garage parking included. Pets considered with an extra deposit.</p>
     <a class="src" href="https://www.rent.com/r/662-capp-st-san-francisco-ca-lv3016247381">View on Rent.com &rarr;</a>
   </div>
@@ -147,7 +193,11 @@
   <div class="card" id="c8">
     <div class="top"><span class="addr">Remodeled top-floor 1BR, 26th St</span><span class="price">$4,495/mo</span></div>
     <p class="meta">1BR &middot; Mission</p>
-    <img class="photo" loading="lazy" alt="26th St 1BR listing photo" src="https://images.craigslist.org/00I0I_pzfWuahY25_0ew08B_600x450.jpg" onerror="this.style.display='none'">
+    <div class="media">
+      <div class="carousel" data-listing="c8"></div>
+      <p class="photo-credit">Photos via the Craigslist listing</p>
+      <div class="cardmap" data-listing="c8"></div> <p class="photo-credit">Map pin approximate - exact address not published.</p>
+    </div>
     <p class="perks">In-unit W/D. Posted Aug 10 by J.Wavro, an established local leasing agent.</p>
     <a class="src" href="https://www.craigslist.org/view/d/san-francisco-remodeled-top-floor-one/wr5yaUCZ1J7pMGtebKnwad">View on Craigslist &rarr;</a>
   </div>
@@ -155,7 +205,11 @@
   <div class="card" id="c9">
     <div class="top"><span class="addr">780 Guerrero St #1</span><span class="price">$3,200/mo</span></div>
     <p class="meta">1BR &middot; 18th &amp; Guerrero</p>
-    <img class="photo" loading="lazy" alt="780 Guerrero St listing photo" src="https://photos.zillowstatic.com/fp/218c1beb579b6acc9f22cc2950f34479-p_e.webp" onerror="this.style.display='none'">
+    <div class="media">
+      <div class="carousel" data-listing="c9"></div>
+      <p class="photo-credit">Photos via Zillow</p>
+      <div class="cardmap" data-listing="c9"></div>
+    </div>
     <p class="perks">Pets OK, shared yard. Had a Tuesday open house.</p>
     <p class="caveat">Rent.com shows unit #2 in the building; confirm which unit is the $3,200 one.</p>
     <a class="src" href="https://www.rent.com/r/780-guerrero-st-san-francisco-ca-lv3006953130">View on Rent.com &rarr;</a>
@@ -164,7 +218,11 @@
   <div class="card" id="c10">
     <div class="top"><span class="addr">Private Dolores Park Cottage</span><span class="price">$2,950/mo</span></div>
     <p class="meta">1BR cottage &middot; Castro / Upper Market edge</p>
-    <img class="photo" loading="lazy" alt="Dolores Park cottage listing photo" src="https://images.craigslist.org/00Z0Z_hGMn9HsWkVa_0kE0fu_600x450.jpg" onerror="this.style.display='none'">
+    <div class="media">
+      <div class="carousel" data-listing="c10"></div>
+      <p class="photo-credit">Photos via the Craigslist listing</p>
+      <div class="cardmap" data-listing="c10"></div> <p class="photo-credit">Map pin approximate - exact address not published.</p>
+    </div>
     <p class="perks">Cheapest real find on the list, right by the park. Posted Aug 15.</p>
     <p class="caveat">Had an open house Sun Aug 16, 1&ndash;3pm. Likely to go fast.</p>
     <a class="src" href="https://www.craigslist.org/view/d/san-francisco-open-sunday-pm-3pm/1AjkSV2v8DrLDsbFgVQbyq">View on Craigslist &rarr;</a>
@@ -175,7 +233,11 @@
   <div class="card" id="c11">
     <div class="top"><span class="addr">8 Octavia St #505</span><span class="price">$3,900/mo</span></div>
     <p class="meta">1BR/1BA &middot; 726 sqft modern condo &middot; Stanley Saitowitz building</p>
-    <img class="photo" loading="lazy" alt="8 Octavia St listing photo" src="https://s3.us-west-2.amazonaws.com/prod-avail/public_images/349795/original/20180412_134804.jpg?1524178712" onerror="this.style.display='none'">
+    <div class="media">
+      <div class="carousel" data-listing="c11"></div>
+      <p class="photo-credit">Photos via the Avail listing</p>
+      <div class="cardmap" data-listing="c11"></div>
+    </div>
     <p class="perks">Bosch W/D, rooftop garden, most utilities included.</p>
     <p class="caveat">Availability date field is blank on the listing; confirm move-in timing.</p>
     <a class="src" href="https://www.avail.com/l/66861-$3900-large-1-bed-slash-1-dot-0-bath-modern-almost-new-condo-in-hayes-valley">View on Avail &rarr;</a>
@@ -184,8 +246,13 @@
   <div class="card" id="c12">
     <div class="top"><span class="addr">The Hayes, 55 Page St #818</span><span class="price">$4,150/mo</span></div>
     <p class="meta">Top-floor 1BR/1BA</p>
-    <img class="photo" loading="lazy" alt="55 Page St #818 listing photo" src="https://ygl-photos.s3.us-west-004.backblazeb2.com/933W62679e0daa9a6.jpg" onerror="this.style.display='none'">
+    <div class="media">
+      <div class="carousel" data-listing="c12"></div>
+      <p class="photo-credit">Photos via Zillow (building page)</p>
+      <div class="cardmap" data-listing="c12"></div>
+    </div>
     <p class="perks">Panoramic views, parking included.</p>
+    <p class="caveat">Photos are Zillow's building-level set for The Hayes; confirm #818 specifics on the listing.</p>
     <a class="src" href="https://www.apartments.com/55-page-st-san-francisco-ca-unit-818/en5bkmn/">View on Apartments.com &rarr;</a>
   </div>
 
@@ -194,7 +261,11 @@
   <div class="card" id="c13">
     <div class="top"><span class="addr">1060 Noe St #1064A</span><span class="price">$5,950/mo</span></div>
     <p class="meta">2BR/1BA</p>
-    <img class="photo" loading="lazy" alt="1060 Noe St listing photo" src="https://photos.zillowstatic.com/fp/2a40f75656c4925efe7407a90000a0f8-cc_ft_1536.jpg" onerror="this.style.display='none'">
+    <div class="media">
+      <div class="carousel" data-listing="c13"></div>
+      <p class="photo-credit">Photos via Zillow</p>
+      <div class="cardmap" data-listing="c13"></div>
+    </div>
     <p class="perks">Posted 17 hours ago, right at the 2BR cap.</p>
     <p class="caveat">No per-unit link; it's at the top of this live Noe Valley list.</p>
     <a class="src" href="https://hotpads.com/noe-valley-san-francisco-ca/apartments-for-rent">View on HotPads &rarr;</a>
@@ -203,7 +274,11 @@
   <div class="card" id="c14">
     <div class="top"><span class="addr">442 Elizabeth St</span><span class="price">$3,695&ndash;$3,895/mo</span></div>
     <p class="meta">1BR &middot; Noe edge, near Dolores &middot; Gaetani-managed</p>
-    <img class="photo" loading="lazy" alt="442 Elizabeth St listing photo" src="https://img.zumpercdn.com/876563015/1280x960?dpr=1&fit=crop&h=542&q=76&w=911" onerror="this.style.display='none'">
+    <div class="media">
+      <div class="carousel" data-listing="c14"></div>
+      <p class="photo-credit">Photo via the Zumper listing</p>
+      <div class="cardmap" data-listing="c14"></div>
+    </div>
     <p class="perks">HotPads posted a $3,695 1BR two days ago; Zumper shows unit #07 at $3,895.</p>
     <p class="caveat">#07 is small at 410 sqft.</p>
     <a class="src" href="https://www.zumper.com/apartment-buildings/p879656/442-elizabeth-street-741r-noe-valley-san-francisco-ca">View on Zumper &rarr;</a>
@@ -215,16 +290,24 @@
   <div class="card" id="c15">
     <div class="top"><span class="addr">3320 16th St #3</span><span class="price">$3,950/mo</span></div>
     <p class="meta">2BR/2BA &middot; 875 sqft</p>
-    <img class="photo" loading="lazy" alt="3320 16th St building photo" src="https://photos.zillowstatic.com/fp/e7003f00f9d151dbafa87e98f6a6b260-cc_ft_768.webp" onerror="this.style.display='none'">
+    <div class="media">
+      <div class="carousel" data-listing="c15"></div>
+      <p class="photo-credit">Photos via Zillow (sister unit in the building)</p>
+      <div class="cardmap" data-listing="c15"></div>
+    </div>
     <p class="perks">Steps off the park. Posted 3 days ago.</p>
-    <p class="caveat">Photo is Zillow's shot of the building's unit 1; confirm #3 specifics on the listing.</p>
+    <p class="caveat">Photos are of a sister unit (#4) in the same building; confirm #3 specifics on the listing.</p>
     <a class="src" href="https://www.zillow.com/mission-dolores-san-francisco-ca/apartments/">Find it on Zillow &rarr;</a>
   </div>
 
   <div class="card" id="c16">
     <div class="top"><span class="addr">489 Sanchez St</span><span class="price">$4,700/mo</span></div>
     <p class="meta">2BR &middot; 920 sqft</p>
-    <img class="photo" loading="lazy" alt="489 Sanchez St listing photo" src="https://photos.zillowstatic.com/fp/fbbd8863892fa6d43070f946be80eb06-cc_ft_768.webp" onerror="this.style.display='none'">
+    <div class="media">
+      <div class="carousel" data-listing="c16"></div>
+      <p class="photo-credit">Photos via Zillow</p>
+      <div class="cardmap" data-listing="c16"></div>
+    </div>
     <p class="perks">Posted 18 hours ago.</p>
     <a class="src" href="https://www.zillow.com/mission-dolores-san-francisco-ca/apartments/">Find it on Zillow &rarr;</a>
   </div>
@@ -273,6 +356,67 @@ const markers = pins.map(([lat,lng,name,price,card]) => {
   return m;
 });
 map.fitBounds(L.featureGroup(markers).getBounds().pad(0.15));
+
+const DATA = {"photos": {"c1": ["https://images1.apartments.com/i2/cNMR5JSwwrt5hqr0cAsZH_E9OG9LDIbKEHhvI6Qgq3o/111/3471-3475-17th-st-san-francisco-ca-primary-photo.jpg"], "c2": ["https://photos.zillowstatic.com/fp/8bd261cd5565b5cee3a3cc748d2e3883-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/f4e003bed49c22ff3890956a6562cbe8-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/b3d825d4ff83abb446a63d01a929eba2-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/30003fc532a6fd5196ec6631dbfa2115-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/2a8926e7d41418dbf20d198f9cdfe6cb-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/31812c9c41bcbef69ce84325a9f8d97d-cc_ft_960.jpg"], "c3": ["https://photos.zillowstatic.com/fp/3ce53a2bf003328f3f3477691627c32d-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/77d86b9ca516db2859d8cae0ec8f8abc-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/5ed8f6a452b757f5e54fbc1e978fd709-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/9e6a5ece8f7812159d773e40b19843be-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/3dc70e00c914b18cfe70e5e6626db6ef-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/513f54803dddafc679b659980ca86600-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/c4d5e8eb24f6e670a534cd95f4b9a9fd-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/abedbc9fe637989ae315fa335d3a83e1-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/4be9dfca28cc2f221a769918a9fca0d2-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/0634edb5317d61bc81ea167e1a5c36cb-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/33f4a95979794b6aa1fa0e1d7e4bd26c-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/b7dfc0d0af7cb1b7263bcaa31c3f36e2-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/1f2d82edbcc9dbd1b6396be23fcfe4f2-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/0a0ac9b6e68d9b1738aed8e6ea17a361-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/21e3b5fe5f8c239c7c7630af9a821bf6-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/6316c9982ebfda184d8b7b008ecb646e-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/9bec4f0a3d3cf7b8270fc35bec83e721-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/f3d19615e3cd4580f5164dad4c4adb3e-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/dd90d088dc1fdfd000ea0090adb7bf33-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/64cbb049580cc87504cfc792af35b00c-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/b98c1ca44304d9afd56d8f6fa7801598-cc_ft_960.jpg"], "c4": ["https://photos.zillowstatic.com/fp/becba7085972ac71b2b71f2a93f43ef6-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/999afb7a5962428e4aa0f66fdb84359d-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/8128ae0b40719c86197af683656c51a6-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/25c0c9082b12597067623b96e71f3a4a-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/57d8b604e0d71502c773eccd1031fccf-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/636558b9fd6b3b76cd99b8de06508675-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/ae4a9dba35438efa954b6d37dbf3e3cc-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/c3b8b8d9f62f56855ef866f489f7205e-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/70adad7da74ae1df8c3210d5bf97cd79-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/6eec0ec9289085c5fe3d089e47f13d0b-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/32d24c6b6ca905a44b4ac05e5460b1d1-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/e30eedaa390504ad86e85df36e84ced8-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/46bc5d04f671f113393b289ab326ebbc-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/7eb6ff1833d6123ac136b86c3d53bead-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/d51e805542a19038967528c8e34223d3-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/19321183b9aa840e5910b89cc569c1f0-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/d5de6e5ec28e0970118ee8f7c1ac1dcb-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/02e0ad0ba90309283eadb941f626bed9-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/090cabfb0c0de0a5b9a7fb381bef6cb2-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/6cbd0d6d4c63269011f12c8ab8bcae0d-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/8d1a1f8e6f9e3060f9aa434c6d2d6ba3-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/6e30e63fd0780d0224b36fd6ea3f00f9-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/bc7f81d53833d1371b92d7cd43098c46-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/5fa9547a9e2c42a9934a5a5fd1932b9b-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/bb288a2b04b61c2f0bc7538e19179a12-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/49f2881d26f4a912d502b72f4fba9872-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/3781878414cff7de6d65ae53c3ecfbf9-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/ade77c71d1cd5ee1c8587ac1a9915f73-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/8a1c920defc69631c0256c5741f0e3b0-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/8911c40c6939b2e74fd545a072c63b3d-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/fb01f6474630a2755d616bd34422bc03-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/c9840d6f4508863b7009742f5db0560d-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/1a861e86050bdeadcb06f96e5cb96c76-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/3e8fe5aa39879bc1d7791aa4568b6b36-cc_ft_960.jpg"], "c5": ["https://photos.zillowstatic.com/fp/c506c561abfaf9c7e9af34fb31def0d9-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/7de1ec1980871853e9217ad0edfe4889-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/323574ce7b6ce3f0e928f8a3c1637e0c-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/d79f946852524db4dace612c2097e5ed-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/b0b954304a87a05c501ee130ff56a787-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/73d8470b2cae616587148610e1c2a162-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/a30afa91da248db536bd2b6939621e29-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/f687c08490ce9caa8f02cb9e207d16d0-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/0c7dc9be57a247bbf5aab77742e92f3e-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/802206d264c7fde469f362b0642f7c8d-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/7ae1fceae10ee4600dc75c89576e3c63-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/f9f1ebb7d1eb35610a96ba7e1637acff-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/8d99cd5b911cfd7eefded94922f01d40-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/b9eeceb759e920958dc2a3d972f8b0ff-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/34f8b00332c9a25ba9a9af4699742765-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/d2caaf79c3e3fe563894c04ccf086503-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/b97335683d1f27c1610be5ec9763c62b-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/e745738e943484789e7baa7565583616-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/37bc381a591284b6b9f03732d1c2f196-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/641808d31b443f51f873987cb9aaf8f4-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/4ee93f320554c7483ec319d4dd23b56e-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/e1c9d6f7dba879c9241cf0a9b36dd96d-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/c5d79d64fa81d462b619320d3d7314bd-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/038911dda5c81aef6c08db5e3d47ec3d-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/c5bf3d4447aaf8ea1a1eb79242459f74-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/571cee24c4e5c043d3220159396a0def-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/fcf17027676395307901e6d4ed6925b4-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/d677d87f7f2023d5484c7ffa85c6de96-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/c7a68d2a10b3fd53a191c229f4498f8f-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/c5f624a00fc25fc40d1925a3b365f26b-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/92cf993fc7f5bff8a68d6daff6d948ce-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/194490bff4640252fdece6a97f953f2c-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/0c20da460712c2b056af5ab99a90b180-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/b1d7d0f88d0523df04da12c1a77d0e44-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/c05c22f1984ae3e3cab2ba66e63a9693-cc_ft_960.jpg"], "c6": ["https://photos.zillowstatic.com/fp/e5631284fe6719dc38b385fba8971415-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/7f00a50d647c4a4921563a7d324d610b-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/06fbc09307af13bee5820af3bf9ddab6-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/81b62c9965f020aab849596136457d31-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/e53fecfe48ad2d80de8a65d5e7d62887-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/34a103a251adafbc7a971fa0573d2c62-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/0f59b2591655969e6fb352b099781f9a-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/9a0d07b2c36916ff910a2de5f541df22-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/1f65a8c2037258cb55ee0180fba6aa4e-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/7db7964caf8885a889695b00fadba0ee-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/4311d4b030579ca3b9684363872237af-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/27321c3daa742fcf1fb59ee00d2166e3-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/562a9a721e1eedc5044f6f6c28f4f645-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/bae81a39bb4e95a9aad543e9e3562d1a-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/862e1048dc7d64cfa8d74a97fb04e8fa-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/665e5f8d092399887f3c07e4fce1f6d4-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/03e5bf5841cc474684f02423301ae20b-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/810677e36c4d8f6179a5b79c6751d085-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/48c3a4866db70c7933732251717b7f2a-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/e4dfc01d11771b0792a3c27ff0057f69-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/db9d99e93a5e4ac00f2b0196cd380b58-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/81737ca4b47dcebc34eace4c338040ac-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/7090ea3741468071f3b0fc6684cd1900-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/466587a00074d616151c3cea0ee692c1-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/a05f851c75dbcf8a658e77d17ebca92b-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/fbb9b9d960af11602e161f864300bb81-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/7e479bcdf5c275d24cf836a882e30a19-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/5d3ed8c16e59bf3801c139bc7c2f0303-cc_ft_960.jpg"], "c7": ["https://photos.zillowstatic.com/fp/7dc9673341dc4b7c81b1cf6eb697fd29-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/1ad4bb628bcc3bb5ca39c34bd7b7e90b-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/3ababa2d9772c7b3cca0f81c23abecc0-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/ff7676f214da416b313801dcf210623a-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/e500679d0211b86ad649262b931675ec-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/cb28fb08739314201e4a2851e99bd956-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/223845583f824e1cea272e7a3a81e72e-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/6066bc543e5e438a12f89da35b1e3d16-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/306fc977b236fe02d065df720997f5cd-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/c1c357e5aa7a94a415222ce17cdbafe3-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/06989f34886f02ee2ddc3868d0cc541c-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/c5c4c5438b6e28556a85df87c465c2df-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/5f8b18b6e099dcc3b966769ddce3737a-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/b10c9a635ac53fe2f0e44f55fb9aa4a8-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/a2a94515f3c5fb38f0502e2f9575b34b-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/ce67326cc30f870b792ef3ae42fe9a47-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/e66c2b95407c7ee622dee28145c707f5-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/310892518bae1c4c1c64e0cdb36f2615-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/c642d5f4334e3559f67f2a0f55d5bda8-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/77214a69fa1f43a0577e3d2a2a44b9d8-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/d0513550be52705b32b771dcf130eaaa-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/92a8f159e09633dfa99d63a2ea40cb7d-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/c57e101d1446a274a087f032d096acc6-cc_ft_960.jpg"], "c8": ["https://images.craigslist.org/00I0I_pzfWuahY25_600x450.jpg", "https://images.craigslist.org/00N0N_l59l2R1QJTi_600x450.jpg", "https://images.craigslist.org/01515_7mo6EaXKuhj_600x450.jpg", "https://images.craigslist.org/00B0B_i2mEE2RoM6i_600x450.jpg", "https://images.craigslist.org/01717_j8qQN5Djahv_600x450.jpg", "https://images.craigslist.org/00u0u_gMVEZ2F7ZV1_600x450.jpg", "https://images.craigslist.org/00s0s_5Gb0M1cHfWq_600x450.jpg", "https://images.craigslist.org/00V0V_eGlBqVqkLWd_600x450.jpg", "https://images.craigslist.org/01111_guO3rf7EIaA_600x450.jpg", "https://images.craigslist.org/00M0M_7UR1J6qWR4c_600x450.jpg", "https://images.craigslist.org/00505_3juPNMmKywW_600x450.jpg", "https://images.craigslist.org/01717_3HNxrF4zjIh_600x450.jpg", "https://images.craigslist.org/00C0C_aEqfFwQ4saT_600x450.jpg", "https://images.craigslist.org/00i0i_h5sZXQN2CKw_600x450.jpg", "https://images.craigslist.org/00o0o_dqU1ssX7Oqp_600x450.jpg", "https://images.craigslist.org/00h0h_jpMI1aNd0rf_600x450.jpg", "https://images.craigslist.org/00N0N_8picBzPhnya_600x450.jpg", "https://images.craigslist.org/00909_bAU1OglVjJH_600x450.jpg", "https://images.craigslist.org/00f0f_dQvO969Wsk9_600x450.jpg", "https://images.craigslist.org/00404_3S3FEHV2EJj_600x450.jpg", "https://images.craigslist.org/00v0v_b0W9NViuOu1_600x450.jpg"], "c9": ["https://photos.zillowstatic.com/fp/238e70f198c35f2d748529644a140def-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/69df1b5bffe3bdbfd87b7cfa893fa867-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/df250da08a29639d468bb21f6cce548a-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/de61c7dd751d2654dce5675d887cea52-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/65db7ea3a1f3862e62aa2b94298cf5bc-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/69bfb2fde5ad651563b3536c8acf4824-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/052267671ae65edc747f544398d52e2a-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/bcd6dad3ebaddd43bacc6e1f61a123ce-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/eaa1c0b07e570bbdd1d9c04dd91bcf07-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/132d4946b52d506d516aedc1a557a3bb-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/a5f4994d587ae24b4617913f9ba7b15a-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/a3d8a852306fe6dd533961f2cee437d7-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/8abca5e306ffcd304794e41eead9d1e8-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/3de5389939b994bedc008a0608abf0f7-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/6e146a8fab30291a3001e2d7dfd3aae2-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/46385d85c9248b64c751685f35e391b2-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/218c1beb579b6acc9f22cc2950f34479-cc_ft_960.jpg"], "c10": ["https://images.craigslist.org/00Z0Z_hGMn9HsWkVa_600x450.jpg", "https://images.craigslist.org/00a0a_3HpiCVWQCV6_600x450.jpg", "https://images.craigslist.org/00l0l_lS6F36bO91v_600x450.jpg", "https://images.craigslist.org/00t0t_kV0YsNBImtD_600x450.jpg", "https://images.craigslist.org/00J0J_1dymQWkLx8O_600x450.jpg", "https://images.craigslist.org/01515_hheVvvmVNUl_600x450.jpg", "https://images.craigslist.org/00t0t_2NodPtFrjse_600x450.jpg", "https://images.craigslist.org/00v0v_jpCefoLDGoS_600x450.jpg", "https://images.craigslist.org/00F0F_gA5IDkV3ksp_600x450.jpg", "https://images.craigslist.org/00u0u_4HVsyl8WJDh_600x450.jpg", "https://images.craigslist.org/00Z0Z_jAVr98Mzs7W_600x450.jpg", "https://images.craigslist.org/00T0T_9ISK83OGqWR_600x450.jpg", "https://images.craigslist.org/00i0i_iCTkKyEs7tb_600x450.jpg", "https://images.craigslist.org/00d0d_hLx1ajxnjeJ_600x450.jpg", "https://images.craigslist.org/00t0t_1pfLarUS387_600x450.jpg", "https://images.craigslist.org/00a0a_bvvBy5jQJdy_600x450.jpg"], "c11": ["https://s3.us-west-2.amazonaws.com/prod-avail/public_images/349795/listing/20180412_134804.jpg?1524178712", "https://s3.us-west-2.amazonaws.com/prod-avail/public_images/349789/listing/20180412_134405.jpg?1524178710", "https://s3.us-west-2.amazonaws.com/prod-avail/public_images/349792/listing/20180412_134457.jpg?1524178710", "https://s3.us-west-2.amazonaws.com/prod-avail/public_images/349787/listing/20180412_134432.jpg?1524178712", "https://s3.us-west-2.amazonaws.com/prod-avail/public_images/349791/listing/20180412_134339.jpg?1524178710", "https://s3.us-west-2.amazonaws.com/prod-avail/public_images/349794/listing/20180412_133455.jpg?1524178711", "https://s3.us-west-2.amazonaws.com/prod-avail/public_images/349800/listing/20180412_135257.jpg?1524178721", "https://s3.us-west-2.amazonaws.com/prod-avail/public_images/349798/listing/20180412_135231.jpg?1524178720", "https://s3.us-west-2.amazonaws.com/prod-avail/public_images/349796/listing/20180412_135023.jpg?1524178718", "https://s3.us-west-2.amazonaws.com/prod-avail/public_images/349799/listing/20180412_135101.jpg?1524178719", "https://s3.us-west-2.amazonaws.com/prod-avail/public_images/349811/listing/8octavia-505.png?1524178826", "https://s3.us-west-2.amazonaws.com/prod-avail/public_images/349797/listing/20180412_135204.jpg?1524178719"], "c12": ["https://photos.zillowstatic.com/fp/1e028121a5cb5f0215e4481da20c052b-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/035d24b6c2f1ca27b722ad82acdd42b5-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/33978ac0795bf4a98115a64b9d943b45-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/5021f791863cf8bbd2fcea15a231dd30-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/36127eb10c04461c9dd8145c7617faaa-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/9193bedff5c15f9c598f86e10ea85b33-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/be78162549d860bc9766d5799b5c4731-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/c22ffb438a770355c3e8cdb9831ea338-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/778a527643dbd33cbca628e917becf81-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/e32efd89fc0305c0168101495a728df8-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/d6b0f8927acb500441ad437e74973111-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/5e58ea204e6978f6a1e8eed9d3ab4aa2-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/1b38f94b5a9ec282c440ec3aeb273d62-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/05fd04a6c9bf3323a9cb6839feda31fe-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/8b5c94f27a265842da71586efb20758b-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/60afc54e69e3dac2cd33e27825c81c9b-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/b1a2f2f70114425bb409986c9cf378ab-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/629cd1569589fe93d574cf93cc0bf0ee-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/09bea25edcc89adfe06cafceb278ebe0-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/495d8e0fdfcda9650e25b812bb012567-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/200a3423b0bdd0e137779d27dc254885-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/86027c082f86b83b4700874137c810c1-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/4ec6645676992b227fa1bc556b4cb478-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/b28310a3b9d06106db5ce8380d9f2e91-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/0450980db0f4e02a0c0b47fefdbc1eb9-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/ac41c2094219046d55e2c5ac65d5098b-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/ecb68c8e4555502314fc6ad3b9146726-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/7cb7e5ed23bdbb612ed2a2b5c948ef35-cc_ft_960.jpg"], "c13": ["https://photos.zillowstatic.com/fp/2a40f75656c4925efe7407a90000a0f8-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/e67cff9ca073579c0d5fd2bf2bf082db-p_c.jpg", "https://photos.zillowstatic.com/fp/167b8012cf276010e673d8338b2e55b3-p_c.jpg"], "c14": ["https://img.zumpercdn.com/876563015/1280x960?dpr=1&fit=crop&h=542&q=76&w=911"], "c15": ["https://photos.zillowstatic.com/fp/82d790d944dfa0f30558d6a87da3d424-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/f5a9ae2b18a3d61758674d370fda97c2-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/f74f583ad1cac0dc32f9c34390dbc0bd-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/b5bb3d91efd3b39dcc44b61cce8529af-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/05975c9a0ece7fc963c540950008885b-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/13e7083008f315a35e189a8831a01dee-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/43a4da84d1acc89de3788b7ddb468819-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/65d3db47d9b21f7da2ae13da1fb3e5dc-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/b3615a11a2d838086b4447a54d2eb7e9-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/de6b3477308eaab4f0de7f2af151d15b-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/0ab9f094f3f220322bfb03e9b20c3d9f-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/b15741a8e692dcd95eda8fe438259ba7-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/6642287bca4377c571062a8e19d840b4-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/2a062c63f20097af07fc1757d04cdf79-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/ebdb76cfeb05c398978502551ec877b6-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/e4234c84d5553091617a9d485466a769-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/ff19e5721846d15acb65aacf4c8440de-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/3a3bab279efe5b1506ebef1748debfec-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/0ac9e6c809104062d8014c7f6f5c06f4-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/652d9e7f286a2862b801378d354396da-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/4da46c4cf5c909c543b9b21a0fb97c18-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/8200c984dbd16bdfedbc9c127d0b4f7d-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/6c84dc64d383f70f714d515c73f774c0-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/512870ab8ca0b5bb66106ced06601a6b-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/acdd477691420539734f89e68c3cdfd6-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/26785b5087090c44c975969836fa8066-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/76fd0fa0d91e474f80df435408563bf3-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/b89d87351118af5813a65af6305537a5-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/47353e4c22cd56095d61374686ab76f5-cc_ft_960.jpg"], "c16": ["https://photos.zillowstatic.com/fp/fbbd8863892fa6d43070f946be80eb06-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/478c33f565c2e23979a3e53f1556b4f3-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/994ba40413bbdc305e63ddbd7bf299d5-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/1cab0e3b6ae9f7b2ee7959b61975723c-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/9f3dbfff8646b6d4576f9bfb5ee5f22c-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/68aca8d7f6a4a23371062b3fa0b5b2ef-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/ef5413d2c84b14dc80b46ca1083c3e76-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/e4ee1fbee907e4b5fbcf8e798f14e96f-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/95b34bf7540e5fd0eebab1dcfc0b18cd-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/26f194b4a25c2dd16b4ebe189e552d4b-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/00cd8a179b9599507f86efbe76874ed5-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/db0a07484719d40098254987bd5f4588-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/62f444e609051e0545812537316bbbf7-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/15e10d7943a97cfc2c8d9c897b324909-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/0c9af672ae0ec3a4fdc91be4d3393c55-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/48cbd38940ccee1f893fefa968c67bca-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/032b75175ec79bcfc7f8a84ff73d2480-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/bbc4f4bfd3d5975aa2822ed5aa499e81-cc_ft_960.jpg", "https://photos.zillowstatic.com/fp/3c03165e07c6d39d7c3366061ac1846e-cc_ft_960.jpg"]}, "coords": {"c1": [37.7630394, -122.4233844], "c2": [37.7685091, -122.4225222], "c3": [37.7655739, -122.4262906], "c4": [37.7685409, -122.426559], "c5": [37.7661283, -122.4269564], "c6": [37.7586609, -122.4089867], "c7": [37.756129, -122.4179874], "c8": [37.7486631, -122.4227133], "c9": [37.7586885, -122.4236849], "c10": [37.7586, -122.4279], "c11": [37.7728838, -122.4234875], "c12": [37.7738485, -122.4219666], "c13": [37.7519497, -122.4322038], "c14": [37.7525478, -122.4308148], "c15": [37.7648136, -122.4269556], "c16": [37.7614396, -122.43035]}};
+const store = {
+  get(id){ try{ const v = localStorage.getItem('sfa-carousel-'+id); return v===null?0:parseInt(v,10)||0; }catch(e){ return 0; } },
+  set(id,i){ try{ localStorage.setItem('sfa-carousel-'+id, String(i)); }catch(e){} }
+};
+
+function buildCarousel(el, id){
+  const list = DATA.photos[id] || [];
+  if(!list.length){ return; }
+  el.classList.add('ready');
+  const stage = document.createElement('div'); stage.className = 'stage';
+  const img = document.createElement('img');
+  img.alt = 'Listing photo'; img.decoding = 'async';
+  stage.appendChild(img); el.appendChild(stage);
+  let idx = Math.min(store.get(id), list.length-1);
+  function show(i, user){
+    idx = (i + list.length) % list.length;
+    img.src = list[idx];
+    counter.textContent = (idx+1) + ' / ' + list.length;
+    if(user) store.set(id, idx);
+    // preload neighbors
+    [idx+1, idx-1].forEach(j=>{ const k=(j+list.length)%list.length; const pre=new Image(); pre.src=list[k]; });
+  }
+  if(list.length > 1){
+    const prev = document.createElement('button'); prev.className='nav prev'; prev.setAttribute('aria-label','Previous photo'); prev.innerHTML='&#8249;';
+    const next = document.createElement('button'); next.className='nav next'; next.setAttribute('aria-label','Next photo'); next.innerHTML='&#8250;';
+    prev.addEventListener('click', e=>{ e.stopPropagation(); show(idx-1, true); });
+    next.addEventListener('click', e=>{ e.stopPropagation(); show(idx+1, true); });
+    el.appendChild(prev); el.appendChild(next);
+    let sx=null;
+    stage.addEventListener('touchstart', e=>{ sx=e.touches[0].clientX; }, {passive:true});
+    stage.addEventListener('touchend', e=>{
+      if(sx===null) return;
+      const dx=e.changedTouches[0].clientX - sx; sx=null;
+      if(Math.abs(dx)>40) show(idx + (dx<0?1:-1), true);
+    }, {passive:true});
+  }
+  var counter = document.createElement('span'); counter.className='counter';
+  el.appendChild(counter);
+  show(idx, false);
+}
+
+function buildMap(el, id){
+  const c = DATA.coords[id]; if(!c) return;
+  const init = () => {
+    if(el.dataset.done) return; el.dataset.done = '1';
+    const m = L.map(el, {scrollWheelZoom:false, zoomControl:false, attributionControl:false});
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom:19}).addTo(m);
+    L.marker(c).addTo(m);
+    m.setView(c, 16);
+    L.control.zoom({position:'bottomright'}).addTo(m);
+  };
+  if('IntersectionObserver' in window){
+    new IntersectionObserver((es,obs)=>{ es.forEach(e=>{ if(e.isIntersecting){ init(); obs.disconnect(); } }); }, {rootMargin:'300px'}).observe(el);
+  } else init();
+}
+
+document.querySelectorAll('.carousel').forEach(el=>buildCarousel(el, el.dataset.listing));
+document.querySelectorAll('.cardmap').forEach(el=>buildMap(el, el.dataset.listing));
+
 </script>
 </body>
 </html>
