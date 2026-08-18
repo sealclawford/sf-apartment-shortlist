@@ -4,6 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>SF Apartment Shortlist &middot; August 2026</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <style>
   :root{
     --bg:#fafaf8; --ink:#1c1c1a; --muted:#6b6b66; --line:#e6e4de;
@@ -26,6 +28,8 @@
   h2{font-size:18px;margin:34px 0 4px;display:flex;align-items:baseline;gap:8px}
   h2 .count{font-size:13px;color:var(--muted);font-weight:400}
   .note{font-size:13px;color:var(--muted);margin:2px 0 14px}
+  #map{height:400px;border-radius:14px;border:1px solid var(--line);margin:16px 0 4px}
+  .mapnote{font-size:12.5px;color:var(--muted);margin:6px 0 0}
   .card{background:#fff;border:1px solid var(--line);border-radius:14px;
     padding:16px 18px;margin:0 0 12px;box-shadow:0 1px 2px rgba(0,0,0,.03)}
   .card .top{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
@@ -38,6 +42,11 @@
   .badge{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:.04em;
     text-transform:uppercase;color:var(--accent);background:var(--accent-soft);
     border-radius:6px;padding:2px 8px;margin-left:8px;vertical-align:2px}
+  .photo{width:100%;border-radius:10px;margin-top:10px;display:block;
+    background:var(--accent-soft);aspect-ratio:16/10;object-fit:cover}
+  .photo-credit{font-size:11.5px;color:var(--muted);margin:4px 0 0}
+  .nophoto{margin-top:10px;border:1px dashed var(--line);border-radius:10px;
+    padding:14px;text-align:center;font-size:13px;color:var(--muted);background:#f4f4f0}
   .src{display:inline-block;margin-top:10px;font-size:13.5px;font-weight:600;
     color:var(--accent);text-decoration:none;border:1px solid var(--line);
     border-radius:8px;padding:6px 12px;background:#fff}
@@ -45,13 +54,15 @@
   footer{margin-top:40px;border-top:1px solid var(--line);padding-top:16px;
     font-size:13px;color:var(--muted)}
   footer p{margin:6px 0}
+  .leaflet-popup-content{font-size:13.5px;line-height:1.4}
+  .leaflet-popup-content a{color:var(--accent);font-weight:600;text-decoration:none}
 </style>
 </head>
 <body>
 <div class="wrap">
   <header class="hero">
     <h1>SF Apartment Shortlist</h1>
-    <p class="sub">Compiled August 17, 2026 from Craigslist, Zillow, HotPads, Apartments.com, Rent.com, Zumper, Avail, Rentable, and Compass. Every link verified loading today.</p>
+    <p class="sub">Compiled August 17, 2026 from Craigslist, Zillow, HotPads, Apartments.com, Rent.com, Zumper, Avail, Rentable, and Compass. Every link verified loading today. Photos pulled from the listings themselves.</p>
     <div class="criteria">
       <span class="chip">1BR &le; $4,500</span>
       <span class="chip">2BR &le; $6,000</span>
@@ -59,6 +70,7 @@
       <span class="chip">Move-in: next month or two</span>
     </div>
     <nav class="toc">
+      <a href="#map">Map</a>
       <a href="#dolores">Mission Dolores &amp; Dolores Park</a>
       <a href="#hayes">Hayes Valley</a>
       <a href="#noe">Noe Valley</a>
@@ -66,80 +78,93 @@
     </nav>
   </header>
 
+  <div id="map"></div>
+  <p class="mapnote">Tap a pin for the address and price, then jump to its card below. The cottage pin is approximate - Craigslist doesn't publish its exact address.</p>
+
   <h2 id="dolores">Mission Dolores &amp; Dolores Park <span class="count">10 places</span></h2>
   <p class="note">The favorite. Sorted roughly best-first.</p>
 
-  <div class="card">
+  <div class="card" id="c1">
     <div class="top"><span class="addr">3471&ndash;3475 17th St<span class="badge">Best value</span></span><span class="price">$3,200/mo</span></div>
     <p class="meta">2BR/1BA &middot; Mission Dolores</p>
+    <img class="photo" loading="lazy" alt="3471-3475 17th St listing photo" src="https://images1.apartments.com/i2/cNMR5JSwwrt5hqr0cAsZH_E9OG9LDIbKEHhvI6Qgq3o/111/3471-3475-17th-st-san-francisco-ca-primary-photo.jpg" onerror="this.style.display='none'">
     <p class="perks">Sun-filled, redone eat-in kitchen with granite, renovated bath. A wildly good price for this block.</p>
     <p class="caveat">No pets, 12-month lease, posted ~2 weeks ago. The Apartments.com page title says "Room for Rent" but the listing body describes the full unit.</p>
     <a class="src" href="https://www.apartments.com/3471-3475-17th-st-san-francisco-ca/h5yyny1/">View on Apartments.com &rarr;</a>
   </div>
 
-  <div class="card">
+  <div class="card" id="c2">
     <div class="top"><span class="addr">270 Valencia St #304</span><span class="price">$3,500/mo</span></div>
     <p class="meta">2BR/1BA &middot; 734 sqft &middot; Valencia @ 14th</p>
+    <img class="photo" loading="lazy" alt="270 Valencia St listing photo" src="https://photos.zillowstatic.com/fp/8bd261cd5565b5cee3a3cc748d2e3883-cc_ft_960.jpg" onerror="this.style.display='none'">
     <p class="perks">Indoor parking and in-unit washer/dryer included. Courtyard-facing, pets OK, a few blocks to Dolores Park.</p>
     <a class="src" href="https://www.apartments.com/270-valencia-st-san-francisco-ca/chjcz4e/">View on Apartments.com &rarr;</a>
   </div>
 
-  <div class="card">
+  <div class="card" id="c3">
     <div class="top"><span class="addr">The Mission, 240 Dolores St</span><span class="price">1BR ~$3,875/mo</span></div>
     <p class="meta">Studios&ndash;2BR &middot; 12 units available &middot; literally on the park</p>
+    <img class="photo" loading="lazy" alt="The Mission building photo" src="https://photos.zillowstatic.com/fp/7d1d00193733a31a604a45fc02845019-o_a.jpg" onerror="this.style.display='none'">
     <p class="perks">In-unit W/D, pool. You can't live closer to Dolores Park than this.</p>
     <p class="caveat">Zillow lists price on request; the $3,875 figure is the 1BR total monthly shown on HotPads.</p>
     <a class="src" href="https://www.zillow.com/apartments/san-francisco-ca/the-mission/5XjQJR/">View on Zillow &rarr;</a>
   </div>
 
-  <div class="card">
+  <div class="card" id="c4">
     <div class="top"><span class="addr">38 Dolores</span><span class="price">$5,506/mo</span></div>
     <p class="meta">2BR &middot; 848 sqft &middot; Dolores &amp; Market</p>
+    <img class="photo" loading="lazy" alt="38 Dolores listing photo" src="https://photos.zillowstatic.com/fp/38b81d2e79d33746ad369136db3fc9be-p_e.webp" onerror="this.style.display='none'">
     <p class="perks">Luxury building: pool, gym, rooftop. 1BRs in the building also fit the cap. Posted 15 hours ago.</p>
     <a class="src" href="https://hotpads.com/38-dolores-san-francisco-ca-94103-23y6jt6/pad">View on HotPads &rarr;</a>
   </div>
 
-  <div class="card">
+  <div class="card" id="c5">
     <div class="top"><span class="addr">200 Dolores St #6</span><span class="price">$3,750/mo</span></div>
     <p class="meta">1BR/1BA &middot; 651 sqft corner condo &middot; 16th &amp; Dolores</p>
+    <img class="photo" loading="lazy" alt="200 Dolores St listing photo" src="https://photos.zillowstatic.com/fp/c506c561abfaf9c7e9af34fb31def0d9-cc_ft_960.jpg" onerror="this.style.display='none'">
     <p class="perks">Garage parking, storage, and internet included. In-unit W/D, high-end kitchen.</p>
     <p class="caveat">Page says "check back soon for upcoming availability" even though the listing is only 2 weeks old. Worth a confirming email or call before counting on it.</p>
     <a class="src" href="https://www.apartments.com/200-dolores-st-san-francisco-ca-unit-6/c5z84pf/">View on Apartments.com &rarr;</a>
   </div>
 
-  <div class="card">
+  <div class="card" id="c6">
     <div class="top"><span class="addr">834 York St</span><span class="price">$5,950/mo</span></div>
     <p class="meta">2BR + office Edwardian flat &middot; 1,200 sqft &middot; York &amp; 21st</p>
+    <img class="photo" loading="lazy" alt="834 York St listing photo" src="https://photos.zillowstatic.com/fp/e5631284fe6719dc38b385fba8971415-cc_ft_960.jpg" onerror="this.style.display='none'">
     <p class="perks">Renovated, in-unit W/D, shared landscaped backyard. Listed 3 hours ago.</p>
     <p class="caveat">No pets.</p>
     <a class="src" href="https://hotpads.com/834-york-st-san-francisco-ca-94110-2550sa0/834/pad">View on HotPads &rarr;</a>
   </div>
 
-  <div class="card">
+  <div class="card" id="c7">
     <div class="top"><span class="addr">662 Capp St #01</span><span class="price">$4,500/mo</span></div>
     <p class="meta">2BR/1BA &middot; 831 sqft newer condo &middot; heart of the Mission</p>
+    <img class="photo" loading="lazy" alt="662 Capp St listing photo" src="https://photos.zillowstatic.com/fp/7dc9673341dc4b7c81b1cf6eb697fd29-cc_ft_960.jpg" onerror="this.style.display='none'">
     <p class="perks">Garage parking included. Pets considered with an extra deposit.</p>
     <a class="src" href="https://www.rent.com/r/662-capp-st-san-francisco-ca-lv3016247381">View on Rent.com &rarr;</a>
   </div>
 
-  <div class="card">
+  <div class="card" id="c8">
     <div class="top"><span class="addr">Remodeled top-floor 1BR, 26th St</span><span class="price">$4,495/mo</span></div>
     <p class="meta">1BR &middot; Mission</p>
+    <img class="photo" loading="lazy" alt="26th St 1BR listing photo" src="https://images.craigslist.org/00I0I_pzfWuahY25_0ew08B_600x450.jpg" onerror="this.style.display='none'">
     <p class="perks">In-unit W/D. Posted Aug 10 by J.Wavro, an established local leasing agent.</p>
     <a class="src" href="https://www.craigslist.org/view/d/san-francisco-remodeled-top-floor-one/wr5yaUCZ1J7pMGtebKnwad">View on Craigslist &rarr;</a>
   </div>
 
-  <div class="card">
+  <div class="card" id="c9">
     <div class="top"><span class="addr">780 Guerrero St #1</span><span class="price">$3,200/mo</span></div>
     <p class="meta">1BR &middot; 18th &amp; Guerrero</p>
+    <img class="photo" loading="lazy" alt="780 Guerrero St listing photo" src="https://photos.zillowstatic.com/fp/218c1beb579b6acc9f22cc2950f34479-p_e.webp" onerror="this.style.display='none'">
     <p class="perks">Pets OK, shared yard. Had a Tuesday open house.</p>
     <p class="caveat">Rent.com shows unit #2 in the building; confirm which unit is the $3,200 one.</p>
     <a class="src" href="https://www.rent.com/r/780-guerrero-st-san-francisco-ca-lv3006953130">View on Rent.com &rarr;</a>
   </div>
 
-  <div class="card">
+  <div class="card" id="c10">
     <div class="top"><span class="addr">Private Dolores Park Cottage</span><span class="price">$2,950/mo</span></div>
     <p class="meta">1BR cottage &middot; Castro / Upper Market edge</p>
+    <img class="photo" loading="lazy" alt="Dolores Park cottage listing photo" src="https://images.craigslist.org/00Z0Z_hGMn9HsWkVa_0kE0fu_600x450.jpg" onerror="this.style.display='none'">
     <p class="perks">Cheapest real find on the list, right by the park. Posted Aug 15.</p>
     <p class="caveat">Had an open house Sun Aug 16, 1&ndash;3pm. Likely to go fast.</p>
     <a class="src" href="https://www.craigslist.org/view/d/san-francisco-open-sunday-pm-3pm/1AjkSV2v8DrLDsbFgVQbyq">View on Craigslist &rarr;</a>
@@ -147,59 +172,67 @@
 
   <h2 id="hayes">Hayes Valley <span class="count">2 places</span></h2>
 
-  <div class="card">
+  <div class="card" id="c11">
     <div class="top"><span class="addr">8 Octavia St #505</span><span class="price">$3,900/mo</span></div>
     <p class="meta">1BR/1BA &middot; 726 sqft modern condo &middot; Stanley Saitowitz building</p>
+    <img class="photo" loading="lazy" alt="8 Octavia St listing photo" src="https://s3.us-west-2.amazonaws.com/prod-avail/public_images/349795/original/20180412_134804.jpg?1524178712" onerror="this.style.display='none'">
     <p class="perks">Bosch W/D, rooftop garden, most utilities included.</p>
     <p class="caveat">Availability date field is blank on the listing; confirm move-in timing.</p>
     <a class="src" href="https://www.avail.com/l/66861-$3900-large-1-bed-slash-1-dot-0-bath-modern-almost-new-condo-in-hayes-valley">View on Avail &rarr;</a>
   </div>
 
-  <div class="card">
+  <div class="card" id="c12">
     <div class="top"><span class="addr">The Hayes, 55 Page St #818</span><span class="price">$4,150/mo</span></div>
     <p class="meta">Top-floor 1BR/1BA</p>
+    <img class="photo" loading="lazy" alt="55 Page St #818 listing photo" src="https://ygl-photos.s3.us-west-004.backblazeb2.com/933W62679e0daa9a6.jpg" onerror="this.style.display='none'">
     <p class="perks">Panoramic views, parking included.</p>
     <a class="src" href="https://www.apartments.com/55-page-st-san-francisco-ca-unit-818/en5bkmn/">View on Apartments.com &rarr;</a>
   </div>
 
   <h2 id="noe">Noe Valley <span class="count">2 places</span></h2>
 
-  <div class="card">
+  <div class="card" id="c13">
     <div class="top"><span class="addr">1060 Noe St #1064A</span><span class="price">$5,950/mo</span></div>
     <p class="meta">2BR/1BA</p>
+    <img class="photo" loading="lazy" alt="1060 Noe St listing photo" src="https://photos.zillowstatic.com/fp/2a40f75656c4925efe7407a90000a0f8-cc_ft_1536.jpg" onerror="this.style.display='none'">
     <p class="perks">Posted 17 hours ago, right at the 2BR cap.</p>
     <p class="caveat">No per-unit link; it's at the top of this live Noe Valley list.</p>
     <a class="src" href="https://hotpads.com/noe-valley-san-francisco-ca/apartments-for-rent">View on HotPads &rarr;</a>
   </div>
 
-  <div class="card">
+  <div class="card" id="c14">
     <div class="top"><span class="addr">442 Elizabeth St</span><span class="price">$3,695&ndash;$3,895/mo</span></div>
     <p class="meta">1BR &middot; Noe edge, near Dolores &middot; Gaetani-managed</p>
+    <img class="photo" loading="lazy" alt="442 Elizabeth St listing photo" src="https://img.zumpercdn.com/876563015/1280x960?dpr=1&fit=crop&h=542&q=76&w=911" onerror="this.style.display='none'">
     <p class="perks">HotPads posted a $3,695 1BR two days ago; Zumper shows unit #07 at $3,895.</p>
     <p class="caveat">#07 is small at 410 sqft.</p>
     <a class="src" href="https://www.zumper.com/apartment-buildings/p879656/442-elizabeth-street-741r-noe-valley-san-francisco-ca">View on Zumper &rarr;</a>
   </div>
 
   <h2 id="more">Also good, no direct listing link <span class="count">3 places</span></h2>
-  <p class="note">All visible on Zillow's Mission Dolores page right now.</p>
+  <p class="note">All visible on Zillow's Mission Dolores page when compiled.</p>
 
-  <div class="card">
+  <div class="card" id="c15">
     <div class="top"><span class="addr">3320 16th St #3</span><span class="price">$3,950/mo</span></div>
     <p class="meta">2BR/2BA &middot; 875 sqft</p>
+    <img class="photo" loading="lazy" alt="3320 16th St building photo" src="https://photos.zillowstatic.com/fp/e7003f00f9d151dbafa87e98f6a6b260-cc_ft_768.webp" onerror="this.style.display='none'">
     <p class="perks">Steps off the park. Posted 3 days ago.</p>
+    <p class="caveat">Photo is Zillow's shot of the building's unit 1; confirm #3 specifics on the listing.</p>
     <a class="src" href="https://www.zillow.com/mission-dolores-san-francisco-ca/apartments/">Find it on Zillow &rarr;</a>
   </div>
 
-  <div class="card">
+  <div class="card" id="c16">
     <div class="top"><span class="addr">489 Sanchez St</span><span class="price">$4,700/mo</span></div>
     <p class="meta">2BR &middot; 920 sqft</p>
+    <img class="photo" loading="lazy" alt="489 Sanchez St listing photo" src="https://photos.zillowstatic.com/fp/fbbd8863892fa6d43070f946be80eb06-cc_ft_768.webp" onerror="this.style.display='none'">
     <p class="perks">Posted 18 hours ago.</p>
     <a class="src" href="https://www.zillow.com/mission-dolores-san-francisco-ca/apartments/">Find it on Zillow &rarr;</a>
   </div>
 
-  <div class="card">
+  <div class="card" id="c17">
     <div class="top"><span class="addr">Undisclosed address, Mission Dolores</span><span class="price">$4,499/mo</span></div>
     <p class="meta">2BR/2BA &middot; 850 sqft</p>
+    <div class="nophoto">Zillow hides this listing's address and photos - open the listing to see them.</div>
     <p class="perks">Instant apply enabled.</p>
     <a class="src" href="https://www.zillow.com/mission-dolores-san-francisco-ca/apartments/">Find it on Zillow &rarr;</a>
   </div>
@@ -207,7 +240,39 @@
   <footer>
     <p><strong>Timing:</strong> listings like these churn in 2&ndash;4 weeks. For a September/October move-in, the freshest batch will rotate in over that window.</p>
     <p><strong>Filtered out:</strong> over-cap units (3665A 20th St at $4,995, 555 Fulton at $7,000), places already pending or rented (258 Dorland, 542 Valencia), and a pile of Craigslist bait ("2BD $998 in Noe Valley" and friends).</p>
+    <p>Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors. Photos belong to their respective listings.</p>
   </footer>
 </div>
+<script>
+const pins = [
+  [37.7630394,-122.4233844,"3471&ndash;3475 17th St","$3,200/mo","c1"],
+  [37.7685091,-122.4225222,"270 Valencia St #304","$3,500/mo","c2"],
+  [37.7655739,-122.4262906,"The Mission, 240 Dolores St","~$3,875/mo","c3"],
+  [37.7685409,-122.4265590,"38 Dolores","$5,506/mo","c4"],
+  [37.7661283,-122.4269564,"200 Dolores St #6","$3,750/mo","c5"],
+  [37.7586609,-122.4089867,"834 York St","$5,950/mo","c6"],
+  [37.7561290,-122.4179874,"662 Capp St #01","$4,500/mo","c7"],
+  [37.7486631,-122.4227133,"26th St 1BR (26th &amp; Guerrero area)","$4,495/mo","c8"],
+  [37.7586885,-122.4236849,"780 Guerrero St #1","$3,200/mo","c9"],
+  [37.7586000,-122.4279000,"Dolores Park Cottage (approx)","$2,950/mo","c10"],
+  [37.7728838,-122.4234875,"8 Octavia St #505","$3,900/mo","c11"],
+  [37.7738485,-122.4219666,"The Hayes, 55 Page St #818","$4,150/mo","c12"],
+  [37.7519497,-122.4322038,"1060 Noe St #1064A","$5,950/mo","c13"],
+  [37.7525478,-122.4308148,"442 Elizabeth St","$3,695&ndash;$3,895/mo","c14"],
+  [37.7648136,-122.4269556,"3320 16th St #3","$3,950/mo","c15"],
+  [37.7614396,-122.4303500,"489 Sanchez St","$4,700/mo","c16"]
+];
+const map = L.map('map', {scrollWheelZoom:false});
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  maxZoom: 19,
+  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+}).addTo(map);
+const markers = pins.map(([lat,lng,name,price,card]) => {
+  const m = L.marker([lat,lng]).addTo(map);
+  m.bindPopup('<strong>'+name+'</strong><br>'+price+'<br><a href="#'+card+'" onclick="document.getElementById(\''+card+'\').scrollIntoView({behavior:\'smooth\'});return false;">Jump to card &darr;</a>');
+  return m;
+});
+map.fitBounds(L.featureGroup(markers).getBounds().pad(0.15));
+</script>
 </body>
 </html>
