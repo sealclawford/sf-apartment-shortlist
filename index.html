@@ -77,7 +77,7 @@
   /* ---- left sidebar + notes ---- */
   :root{ --sbw:340px }
   #sidebar{position:fixed;top:0;left:0;bottom:0;width:var(--sbw);background:#fff;
-    border-right:1px solid var(--line);display:flex;flex-direction:column;z-index:900}
+    border-right:1px solid var(--line);display:flex;flex-direction:column;z-index:1200}
   #sidebar .sbhead{padding:14px 16px 10px;border-bottom:1px solid var(--line)}
   #sidebar .sbhead h3{margin:0;font-size:14px;letter-spacing:.02em;text-transform:uppercase;color:var(--muted)}
   #sidebar .sbhead .sbcount{font-size:12.5px;color:var(--muted);margin-top:2px}
@@ -111,7 +111,7 @@
   .notebox textarea:focus{outline:2px solid var(--accent-soft);border-color:var(--accent)}
   .notebox .saved{font-size:11.5px;color:var(--muted);margin-top:3px;min-height:14px}
   .card.flash{box-shadow:0 0 0 3px var(--accent-soft);border-color:var(--accent)}
-  #sbtoggle{display:none;position:fixed;left:12px;bottom:12px;z-index:950;
+  #sbtoggle{display:none;position:fixed;left:12px;bottom:12px;z-index:1250;
     background:var(--accent);color:#fff;border:none;border-radius:999px;
     padding:11px 18px;font-size:14px;font-weight:650;box-shadow:0 2px 10px rgba(0,0,0,.2)}
   #sbclose{display:none}
@@ -122,6 +122,7 @@
     #sidebar{transform:translateX(-104%);transition:transform .22s ease;width:min(88vw,340px);
       box-shadow:0 0 24px rgba(0,0,0,.18)}
     body.sbopen #sidebar{transform:none}
+    body.sbopen #sbtoggle{display:none}
     #sbclose{display:block;position:absolute;top:10px;right:10px;border:1px solid var(--line);
       background:#fff;border-radius:8px;font-size:13px;padding:4px 9px;color:var(--muted)}
   }
