@@ -135,6 +135,25 @@
     border-radius:5px;padding:1px 5px;margin-right:5px;vertical-align:1px}
   .sbrow .sbdate{font-size:11.5px;color:var(--muted);margin-top:2px}
   .sbempty{padding:16px 10px;font-size:13px;color:var(--muted)}
+
+  /* ---- master-detail ---- */
+  h2{display:none}
+  .card{display:none}
+  .card.selected{display:block}
+  .photogrid{max-height:none !important;overflow:visible !important}
+  nav.toc{display:none}
+  #detailhead{margin:22px 0 8px;font-size:13px;text-transform:uppercase;letter-spacing:.05em;
+    color:var(--muted);font-weight:700}
+  #detailhead .dcount{font-weight:400;text-transform:none;letter-spacing:0}
+  .notebox{display:none}
+  .sbrow{flex-wrap:wrap}
+  .sbrow .rownote{width:100%;margin-top:6px;font:inherit;font-size:12.5px;line-height:1.35;
+    padding:5px 7px;border:1px solid #f0e3bd;background:#fffbe9;border-radius:6px;color:var(--ink);
+    resize:vertical;min-height:30px}
+  .sbrow .rownote:focus{outline:2px solid var(--accent-soft);border-color:var(--accent)}
+  .sbrow .sbnote{display:none !important}
+  #map{height:300px}
+  @media (max-width:1000px){ #map{height:240px} }
 </style>
 </head>
 <body>
@@ -178,7 +197,9 @@
   </header>
 
   <div id="map"></div>
-  <p class="mapnote">Tap a pin for the address and price, then jump to its card below. The cottage pin is approximate - Craigslist doesn't publish its exact address.</p>
+  <p class="mapnote">Tap a pin for the address and price, then open that place in the detail pane. The cottage pin is approximate - Craigslist doesn't publish its exact address.</p>
+
+  <div id="detailhead"></div>
 
   <h2 id="dolores">Mission Dolores &amp; Dolores Park <span class="count">25 places</span></h2>
   <p class="note">The favorite. Sorted roughly best-first.</p>
@@ -730,7 +751,7 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
 }).addTo(map);
 const markers = pins.map(([lat,lng,name,price,card]) => {
   const m = L.marker([lat,lng]).addTo(map);
-  m.bindPopup('<strong>'+name+'</strong><br>'+price+'<br><a href="#'+card+'" onclick="document.getElementById(\''+card+'\').scrollIntoView({behavior:\'smooth\'});return false;">Jump to card &darr;</a>');
+  m.bindPopup('<strong>'+name+'</strong><br>'+price+'<br><a href="#'+card+'" onclick="select(\''+card+'\');return false;">Jump to card &darr;</a>');
   return m;
 });
 map.fitBounds(L.featureGroup(markers).getBounds().pad(0.3), {maxZoom: 14});
@@ -865,13 +886,47 @@ function makeRow(it){
   if(it.posted) bits.push('posted ' + fmtDate(it.posted));
   if(it.added) bits.push('added ' + fmtDate(it.added));
   body.querySelector('.sbdate').textContent = bits.join(' \u00b7 ');
-  const noteEl = document.createElement('div');
-  noteEl.className = 'sbnote empty';
-  body.appendChild(noteEl);
   row.appendChild(body);
-  rowsByCard[it.id] = {row: row, note: noteEl, key: it.key, item: it};
-  row.addEventListener('click', ()=>jumpTo(it.id));
+
+  const ta = document.createElement('textarea');
+  ta.className = 'rownote'; ta.rows = 1;
+  ta.placeholder = 'Your notes on this place';
+  ta.value = getNote(it.key);
+  const fit = ()=>{ ta.style.height = 'auto'; ta.style.height = Math.min(ta.scrollHeight + 2, 180) + 'px'; };
+  requestAnimationFrame(fit);
+  let t = null;
+  ta.addEventListener('input', ()=>{
+    fit();
+    clearTimeout(t);
+    t = setTimeout(()=>setNote(it.key, ta.value.trim()), 300);
+  });
+  ta.addEventListener('click', e=>e.stopPropagation());
+  ta.addEventListener('focus', ()=>row.classList.add('active'));
+  row.appendChild(ta);
+
+  rowsByCard[it.id] = {row: row, note: ta, key: it.key, item: it};
+  row.addEventListener('click', ()=>select(it.id));
   return row;
+}
+
+function select(id){
+  const item = ITEMS.find(i=>i.id===id); if(!item) return;
+  document.querySelectorAll('.card.selected').forEach(c=>c.classList.remove('selected'));
+  item.card.classList.add('selected');
+  const head = document.getElementById('detailhead');
+  head.innerHTML = '';
+  head.appendChild(document.createTextNode(item.hood));
+  const n = document.createElement('span');
+  n.className = 'dcount';
+  n.textContent = '  \u00b7  ' + item.src + (item.posted ? '  \u00b7  posted ' + fmtDate(item.posted) : '');
+  head.appendChild(n);
+  Object.keys(rowsByCard).forEach(k=>rowsByCard[k].row.classList.toggle('active', k===id));
+  document.body.classList.remove('sbopen');
+  try{ history.replaceState(null, '', '#' + id); }catch(e){}
+  window.scrollTo({top: 0, behavior: 'smooth'});
+  const grid = item.card.querySelector('.photogrid');
+  if(grid && !grid.dataset.built){ grid.dataset.built = '1'; }
+  setTimeout(()=>window.dispatchEvent(new Event('resize')), 120);
 }
 
 function render(){
@@ -907,11 +962,12 @@ function render(){
         sbList.appendChild(h);
       }
       sbList.appendChild(makeRow(it));
-      paintNote(it.id);
     });
   } else {
-    list.forEach(it=>{ sbList.appendChild(makeRow(it)); paintNote(it.id); });
+    list.forEach(it=>{ sbList.appendChild(makeRow(it)); });
   }
+  const selected = document.querySelector('.card.selected');
+  if(selected && rowsByCard[selected.id]) rowsByCard[selected.id].row.classList.add('active');
   document.getElementById('sbcount').textContent =
     (list.length === ITEMS.length ? ITEMS.length + ' places' : list.length + ' of ' + ITEMS.length + ' places') +
     ', updated ' + (document.querySelector('.sub').textContent.match(/latest: ([^)]+)/)||[,''])[1];
@@ -927,8 +983,11 @@ function buildSidebar(){
     o.textContent = sname + ' (' + ITEMS.filter(i=>i.src===sname).length + ')';
     sel.appendChild(o);
   });
-  ITEMS.forEach(it=>attachNotes(it.card, it.id, it.key));
   render();
+  const want = (location.hash || '').replace('#','');
+  const initial = (want && ITEMS.some(i=>i.id===want)) ? want : ITEMS[0].id;
+  select(initial);
+  window.scrollTo(0,0);
 }
 
 function miniMap(id){
@@ -971,10 +1030,8 @@ function attachNotes(card, id, key){
   card.appendChild(box);
 }
 function paintNote(id){
-  const r = rowsByCard[id]; if(!r) return;
-  const v = getNote(r.key);
-  r.note.textContent = v;
-  r.note.classList.toggle('empty', !v);
+  const r = rowsByCard[id]; if(!r || !r.note) return;
+  if(document.activeElement !== r.note) r.note.value = getNote(r.key);
 }
 function jumpTo(id){
   const card = document.getElementById(id); if(!card) return;
