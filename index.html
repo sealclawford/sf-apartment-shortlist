@@ -73,9 +73,71 @@
     .photogrid .cardmap{grid-column:span 2;min-height:220px}
   }
 
+
+  /* ---- left sidebar + notes ---- */
+  :root{ --sbw:340px }
+  #sidebar{position:fixed;top:0;left:0;bottom:0;width:var(--sbw);background:#fff;
+    border-right:1px solid var(--line);display:flex;flex-direction:column;z-index:900}
+  #sidebar .sbhead{padding:14px 16px 10px;border-bottom:1px solid var(--line)}
+  #sidebar .sbhead h3{margin:0;font-size:14px;letter-spacing:.02em;text-transform:uppercase;color:var(--muted)}
+  #sidebar .sbhead .sbcount{font-size:12.5px;color:var(--muted);margin-top:2px}
+  #sbfilter{width:100%;margin-top:8px;padding:6px 10px;font-size:13.5px;border:1px solid var(--line);
+    border-radius:8px;background:var(--bg);color:var(--ink)}
+  #sblist{overflow-y:auto;flex:1;padding:6px 8px 24px;scrollbar-width:thin}
+  .sbgroup{font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);
+    padding:12px 8px 4px;font-weight:700}
+  .sbrow{display:flex;gap:10px;padding:8px;border-radius:10px;cursor:pointer;align-items:flex-start;
+    border:1px solid transparent}
+  .sbrow:hover{background:var(--accent-soft)}
+  .sbrow.active{background:var(--accent-soft);border-color:var(--accent)}
+  .sbrow .sbthumb{width:62px;height:62px;flex:0 0 62px;border-radius:8px;object-fit:cover;
+    background:var(--accent-soft);display:block}
+  .sbrow .sbmini{width:62px;height:62px;flex:0 0 62px;border-radius:8px;border:1px solid var(--line);overflow:hidden}
+  .sbrow .sbbody{min-width:0;flex:1}
+  .sbrow .sbprice{font-weight:700;font-size:14px;color:var(--accent)}
+  .sbrow .sbaddr{font-size:13.5px;font-weight:600;line-height:1.3;
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .sbrow .sbmeta{font-size:12px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .sbrow .sbnew{font-size:10px;font-weight:700;color:var(--accent);letter-spacing:.04em}
+  .sbrow .sbnote{margin-top:4px;font-size:12.5px;background:#fffbe9;border:1px solid #f0e3bd;
+    border-radius:6px;padding:4px 6px;white-space:pre-wrap;overflow:hidden;
+    display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical}
+  .sbrow .sbnote.empty{display:none}
+  .notebox{margin-top:10px}
+  .notebox label{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.04em;
+    color:var(--muted);font-weight:700;margin-bottom:4px}
+  .notebox textarea{width:100%;min-height:56px;resize:vertical;font:inherit;font-size:14px;
+    padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:#fffdf5;color:var(--ink)}
+  .notebox textarea:focus{outline:2px solid var(--accent-soft);border-color:var(--accent)}
+  .notebox .saved{font-size:11.5px;color:var(--muted);margin-top:3px;min-height:14px}
+  .card.flash{box-shadow:0 0 0 3px var(--accent-soft);border-color:var(--accent)}
+  #sbtoggle{display:none;position:fixed;left:12px;bottom:12px;z-index:950;
+    background:var(--accent);color:#fff;border:none;border-radius:999px;
+    padding:11px 18px;font-size:14px;font-weight:650;box-shadow:0 2px 10px rgba(0,0,0,.2)}
+  #sbclose{display:none}
+  body{padding-left:var(--sbw)}
+  @media (max-width:1000px){
+    body{padding-left:0}
+    #sbtoggle{display:block}
+    #sidebar{transform:translateX(-104%);transition:transform .22s ease;width:min(88vw,340px);
+      box-shadow:0 0 24px rgba(0,0,0,.18)}
+    body.sbopen #sidebar{transform:none}
+    #sbclose{display:block;position:absolute;top:10px;right:10px;border:1px solid var(--line);
+      background:#fff;border-radius:8px;font-size:13px;padding:4px 9px;color:var(--muted)}
+  }
 </style>
 </head>
 <body>
+<button id="sbtoggle" type="button">Browse all</button>
+<aside id="sidebar">
+  <div class="sbhead">
+    <button id="sbclose" type="button">Close</button>
+    <h3>All listings</h3>
+    <div class="sbcount" id="sbcount"></div>
+    <input id="sbfilter" type="search" placeholder="Filter by address, price, note...">
+  </div>
+  <div id="sblist"></div>
+</aside>
 <div class="wrap">
   <header class="hero">
     <h1>SF Apartment Shortlist</h1>
@@ -691,6 +753,148 @@ function buildMap(el, id){
 document.querySelectorAll('.photogrid').forEach(el=>buildGrid(el, el.dataset.listing));
 document.querySelectorAll('.cardmap').forEach(el=>buildMap(el, el.dataset.listing));
 
+
+/* ---------- left sidebar + per-listing notes ---------- */
+const NOTE_PREFIX = 'sfa-note::';
+function listingKey(card){
+  const a = card.querySelector('a.src');
+  return a && a.href ? a.href.split('?')[0] : 'id::' + card.id;
+}
+function getNote(k){ try{ return localStorage.getItem(NOTE_PREFIX+k) || ''; }catch(e){ return ''; } }
+function setNote(k,v){ try{ v ? localStorage.setItem(NOTE_PREFIX+k,v) : localStorage.removeItem(NOTE_PREFIX+k); }catch(e){} }
+
+const sbList = document.getElementById('sblist');
+const rowsByCard = {};
+
+function buildSidebar(){
+  const groups = [];
+  let current = null;
+  document.querySelectorAll('h2[id], .card').forEach(el=>{
+    if(el.tagName === 'H2'){
+      current = {name: el.firstChild.textContent.trim(), cards: []};
+      groups.push(current);
+    } else if(current){ current.cards.push(el); }
+  });
+  let total = 0;
+  groups.forEach(g=>{
+    if(!g.cards.length) return;
+    const h = document.createElement('div');
+    h.className = 'sbgroup'; h.textContent = g.name + ' (' + g.cards.length + ')';
+    sbList.appendChild(h);
+    g.cards.forEach(card=>{
+      total++;
+      const id = card.id;
+      const key = listingKey(card);
+      const addrEl = card.querySelector('.addr');
+      const badge = addrEl && addrEl.querySelector('.badge');
+      const addr = addrEl ? addrEl.childNodes[0].textContent.trim() : id;
+      const price = (card.querySelector('.price')||{}).textContent || '';
+      const meta = (card.querySelector('.meta')||{}).textContent || '';
+      const photo = (DATA.photos[id]||[])[0];
+
+      const row = document.createElement('div');
+      row.className = 'sbrow'; row.dataset.card = id;
+
+      if(photo){
+        const im = document.createElement('img');
+        im.className = 'sbthumb'; im.loading = 'lazy'; im.decoding = 'async';
+        im.alt = addr; im.src = photo;
+        im.addEventListener('error', ()=>{ im.replaceWith(miniMap(id)); });
+        row.appendChild(im);
+      } else {
+        row.appendChild(miniMap(id));
+      }
+
+      const body = document.createElement('div');
+      body.className = 'sbbody';
+      body.innerHTML = '<div class="sbprice">' + price +
+        (badge ? ' <span class="sbnew">' + badge.textContent + '</span>' : '') + '</div>' +
+        '<div class="sbaddr"></div><div class="sbmeta"></div>';
+      body.querySelector('.sbaddr').textContent = addr;
+      body.querySelector('.sbmeta').textContent = meta;
+      const noteEl = document.createElement('div');
+      noteEl.className = 'sbnote empty';
+      body.appendChild(noteEl);
+      row.appendChild(body);
+      sbList.appendChild(row);
+
+      rowsByCard[id] = {row: row, note: noteEl, key: key};
+      row.addEventListener('click', ()=>jumpTo(id));
+      attachNotes(card, id, key);
+      paintNote(id);
+    });
+  });
+  document.getElementById('sbcount').textContent = total + ' places, updated ' +
+    (document.querySelector('.sub').textContent.match(/latest: ([^)]+)/)||[,''])[1];
+}
+
+function miniMap(id){
+  const d = document.createElement('div');
+  d.className = 'sbmini';
+  const c = DATA.coords[id];
+  if(c){
+    requestAnimationFrame(()=>{
+      const m = L.map(d, {zoomControl:false, attributionControl:false, dragging:false,
+        scrollWheelZoom:false, doubleClickZoom:false, boxZoom:false, keyboard:false, tap:false});
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
+        {subdomains:'abcd', maxZoom:20}).addTo(m);
+      L.circleMarker(c, {radius:5, color:'#205b3f', fillColor:'#205b3f', fillOpacity:1}).addTo(m);
+      m.setView(c, 13);
+      setTimeout(()=>m.invalidateSize(), 60);
+    });
+  }
+  return d;
+}
+
+function attachNotes(card, id, key){
+  const box = document.createElement('div');
+  box.className = 'notebox';
+  box.innerHTML = '<label for="note-'+id+'">Your notes</label>' +
+    '<textarea id="note-'+id+'" placeholder="What did you think? Saved in this browser."></textarea>' +
+    '<div class="saved"></div>';
+  const ta = box.querySelector('textarea');
+  const status = box.querySelector('.saved');
+  ta.value = getNote(key);
+  let t = null;
+  ta.addEventListener('input', ()=>{
+    clearTimeout(t);
+    t = setTimeout(()=>{
+      setNote(key, ta.value.trim());
+      paintNote(id);
+      status.textContent = ta.value.trim() ? 'Saved' : '';
+      setTimeout(()=>{ status.textContent = ''; }, 1600);
+    }, 300);
+  });
+  card.appendChild(box);
+}
+
+function paintNote(id){
+  const r = rowsByCard[id]; if(!r) return;
+  const v = getNote(r.key);
+  r.note.textContent = v;
+  r.note.classList.toggle('empty', !v);
+}
+
+function jumpTo(id){
+  const card = document.getElementById(id); if(!card) return;
+  document.body.classList.remove('sbopen');
+  card.scrollIntoView({behavior:'smooth', block:'start'});
+  Object.keys(rowsByCard).forEach(k=>rowsByCard[k].row.classList.toggle('active', k===id));
+  card.classList.add('flash');
+  setTimeout(()=>card.classList.remove('flash'), 1400);
+}
+
+document.getElementById('sbtoggle').addEventListener('click', ()=>document.body.classList.toggle('sbopen'));
+document.getElementById('sbclose').addEventListener('click', ()=>document.body.classList.remove('sbopen'));
+document.getElementById('sbfilter').addEventListener('input', function(){
+  const q = this.value.toLowerCase().trim();
+  Object.keys(rowsByCard).forEach(id=>{
+    const r = rowsByCard[id];
+    const hay = (r.row.textContent + ' ' + getNote(r.key)).toLowerCase();
+    r.row.style.display = (!q || hay.indexOf(q) !== -1) ? '' : 'none';
+  });
+});
+buildSidebar();
 </script>
 </body>
 </html>
