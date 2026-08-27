@@ -816,10 +816,9 @@ const pins = [
   [37.7725,-122.4147,"Tri-level 2BR loft, 12th & Folsom area","$4,900/mo","c53"],
 ];
 const map = L.map('map', {scrollWheelZoom:false});
-L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-  subdomains: 'abcd',
-  maxZoom: 20,
-  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  maxZoom: 19,
+  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
 const markers = pins.map(([lat,lng,name,price,card]) => {
   const m = L.marker([lat,lng]).addTo(map);
@@ -866,7 +865,7 @@ function buildMap(el, id){
   const init = () => {
     if(el.dataset.done) return; el.dataset.done = '1';
     const m = L.map(el, {scrollWheelZoom:false, zoomControl:false, attributionControl:false});
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {subdomains:'abcd', maxZoom:20}).addTo(m);
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom:19}).addTo(m);
     L.marker(c).addTo(m);
     m.setView(c, 14);
     L.control.zoom({position:'bottomright'}).addTo(m);
@@ -1070,8 +1069,8 @@ function miniMap(id){
     requestAnimationFrame(()=>{
       const m = L.map(d, {zoomControl:false, attributionControl:false, dragging:false,
         scrollWheelZoom:false, doubleClickZoom:false, boxZoom:false, keyboard:false, tap:false});
-      L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
-        {subdomains:'abcd', maxZoom:20}).addTo(m);
+      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+        {maxZoom:19}).addTo(m);
       L.circleMarker(c, {radius:5, color:'#205b3f', fillColor:'#205b3f', fillOpacity:1}).addTo(m);
       m.setView(c, 13);
       setTimeout(()=>m.invalidateSize(), 60);
